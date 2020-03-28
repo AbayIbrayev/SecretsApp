@@ -1,7 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
 
 const app = express();
 
@@ -19,10 +21,13 @@ mongoose.connect("mongodb://localhost:27017/userDB", {
   useUnifiedTopology: true
 });
 
-const userSchema = {
+const userSchema = new mongoose.Schema({
   email: String,
   password: String
-};
+});
+//adding a random string to encrypt password from an environment variable
+const secret = process.env.SECRET;
+userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
 
 const User = mongoose.model("User", userSchema);
 
@@ -30,7 +35,8 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.route("/login")
+app
+  .route("/login")
   .get((req, res) => {
     res.render("login");
   })
@@ -38,22 +44,26 @@ app.route("/login")
     const username = req.body.username,
       password = req.body.password;
 
-    User.findOne({
-      email: username
-    }, (err, foundUser) => {
-      if (err) {
-        console.log(err);
-      } else {
-        if (foundUser) {
-          if (foundUser.password === password) {
-            res.render("secrets");
+    User.findOne(
+      {
+        email: username
+      },
+      (err, foundUser) => {
+        if (err) {
+          console.log(err);
+        } else {
+          if (foundUser) {
+            if (foundUser.password === password) {
+              res.render("secrets");
+            }
           }
         }
       }
-    })
+    );
   });
 
-app.route("/register")
+app
+  .route("/register")
   .get((req, res) => {
     res.render("register");
   })
@@ -72,6 +82,6 @@ app.route("/register")
     });
   });
 
-app.listen(3000, function () {
+app.listen(3000, function() {
   console.log("Server started on the port 3000!");
 });
