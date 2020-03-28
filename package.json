@@ -1,0 +1,27 @@
+{
+  "name": "SecretsApp",
+  "version": "1.0.0",
+  "description": "Secrets app using Node.js/Express/EJS",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbayIbrayev/SecretsApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbayIbrayev/SecretsApp/issues"
+  },
+  "homepage": "https://github.com/AbayIbrayev/SecretsApp#readme"
+}
