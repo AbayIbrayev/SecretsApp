@@ -9,14 +9,20 @@
         <div class="card-body">
 
           <!-- Makes POST request to /login route -->
-          <form action="/login" method="POST">
+          <form action="/login" method="POST" class="needs-validation" novalidate>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" class="form-control" name="username">
+              <input type="email" class="form-control" name="username" required>
+              <div class="invalid-feedback">
+                Please provide a username.
+              </div>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" name="password">
+              <input type="password" class="form-control" name="password" minlength="6" maxlength="30" required>
+              <div class="invalid-feedback">
+                Please provide a password.
+              </div>
             </div>
             <button type="submit" class="btn btn-dark">Login</button>
           </form>
@@ -40,3 +46,23 @@
 </div>
 
 <%- include('partials/footer') %>
+
+<script>
+  (function () {
+    'use strict';
+    window.addEventListener('load', function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      const validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>

@@ -132,7 +132,7 @@ app
     });
     req.login(user, err => {
       if (err) {
-        console.log(err);
+        alert(err);
       } else {
         passport.authenticate("local")(req, res, () => {
           res.redirect("/secrets");
@@ -165,7 +165,7 @@ app
       req.body.password,
       (err, user) => {
         if (err) {
-          console.log(err);
+          alert(err);
         } else {
           passport.authenticate("local")(req, res, () => {
             res.redirect("/secrets");
@@ -178,11 +178,10 @@ app
 app.route("/secrets").get((req, res) => {
   User.find({ secret: { $ne: null } }, (err, foundUsers) => {
     if (err) {
-      console.log(err);
+      alert(err);
     } else {
       if (foundUsers) {
         res.render("secrets", { usersWithSecrets: foundUsers });
-      } else {
       }
     }
   });
@@ -207,7 +206,7 @@ app
 
     User.findById(req.user.id, (err, foundUser) => {
       if (err) {
-        console.log(err);
+        alert(err);
       } else {
         foundUser.secret = submittedSeccret;
         foundUser.save(() => {

@@ -6,15 +6,42 @@
     <h1 class="display-3">Secrets</h1>
     <p class="secret-text">Don't keep your secrets, share them anonymously!</p>
 
-    <form action="/submit" method="POST">
+    <form action="/submit" method="POST" class="needs-validation" novalidate>
 
       <div class="form-group">
-        <input type="text" class="form-control text-center" name="secret" placeholder="What's your secret?">
+        <input type="text" class="form-control text-center" autocomplete="off" name="secret" placeholder="What's your secret?"
+          minlength="5" maxlength="70" required>
+        <div class="invalid-feedback">
+          Please provide a secret.
+        </div>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone
+          else.</small>
       </div>
+      <a class="btn btn-light" href="/secrets" role="button">Go back</a>
       <button type="submit" class="btn btn-dark">Submit</button>
     </form>
-
 
   </div>
 </div>
 <%- include('partials/footer') %>
+
+
+<script>
+  (function () {
+    'use strict';
+    window.addEventListener('load', function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      const validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
