@@ -18,6 +18,9 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1"
   },
+  "engines": {
+    "node": "^12.12.0"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,8 +30,8 @@
     "url": "git+https://github.com/AbayIbrayev/SecretsApp.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Abay Ibrayev",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AbayIbrayev/SecretsApp/issues"
   },
