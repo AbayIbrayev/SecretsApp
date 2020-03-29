@@ -76,7 +76,8 @@ passport.use(
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "http://sharesecrets.herokuapp.com/auth/google/secrets",
       // callbackURL: "http://localhost:3000/auth/google/secrets",
-      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+      proxy: true
     },
     function(accessToken, refreshToken, profile, cb) {
       User.findOrCreate({ googleId: profile.id }, function(err, user) {
