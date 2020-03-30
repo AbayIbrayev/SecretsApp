@@ -34,8 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect(
-  `mongodb+srv://admin-abay:${process.env.PASSWORD}@secrets-6h62e.mongodb.net/userDB`,
-  {
+  `mongodb+srv://admin-abay:${process.env.PASSWORD}@secrets-6h62e.mongodb.net/userDB`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -59,27 +58,28 @@ passport.use(User.createStrategy());
 //local
 // passport.serializeUser(User.serializeUser());
 // passport.deserializeUser(User.deserializeUser());
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
     done(err, user);
   });
 });
 
 passport.use(
-  new GoogleStrategy(
-    {
+  new GoogleStrategy({
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "https://sharesecrets.herokuapp.com/auth/google/secrets",
+      callbackURL: "http://sharesecrets.herokuapp.com/auth/google/secrets",
       // callbackURL: "http://localhost:3000/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
     },
-    function(accessToken, refreshToken, profile, cb) {
-      User.findOrCreate({ googleId: profile.id }, function(err, user) {
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({
+        googleId: profile.id
+      }, function (err, user) {
         return cb(err, user);
       });
     }
@@ -92,13 +92,18 @@ app.get("/", (req, res) => {
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
+  passport.authenticate("google", {
+    scope: ["https://www.googleapis.com/auth/userinfo.profile"]
+    // scope: ["profile"]
+  })
 );
 
 app.get(
   "/auth/google/secrets",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  function(req, res) {
+  passport.authenticate("google", {
+    failureRedirect: "/login"
+  }),
+  function (req, res) {
     // Successful authentication, redirect secrets.
     res.redirect("https://sharesecrets.herokuapp.com/secrets");
   }
@@ -164,8 +169,9 @@ app
     //     }
     //   });
     // });
-    User.register(
-      { username: req.body.username },
+    User.register({
+        username: req.body.username
+      },
       req.body.password,
       (err, user) => {
         if (err) {
@@ -180,12 +186,18 @@ app
   });
 
 app.route("/secrets").get((req, res) => {
-  User.find({ secret: { $ne: null } }, (err, foundUsers) => {
+  User.find({
+    secret: {
+      $ne: null
+    }
+  }, (err, foundUsers) => {
     if (err) {
       alert(err);
     } else {
       if (foundUsers) {
-        res.render("secrets", { usersWithSecrets: foundUsers });
+        res.render("secrets", {
+          usersWithSecrets: foundUsers
+        });
       }
     }
   });
@@ -220,6 +232,6 @@ app
     });
   });
 
-app.listen(process.env.PORT || 3000, function() {
+app.listen(process.env.PORT || 3000, function () {
   console.log("Server started!");
 });
