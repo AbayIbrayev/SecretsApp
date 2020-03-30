@@ -74,7 +74,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://sharesecrets.herokuapp.com/auth/google/secrets",
+      callbackURL: "https://sharesecrets.herokuapp.com/auth/google/secrets",
       // callbackURL: "http://localhost:3000/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
     },
