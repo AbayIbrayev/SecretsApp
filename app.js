@@ -192,14 +192,8 @@ app.route("/secrets").get((req, res) => {
 });
 
 app.route("/logout").get((req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      alert(err);
-    } else {
-      req.logout();
-      res.redirect("/");
-    }
-  });
+  req.logout();
+  res.redirect("/");
 });
 
 app
