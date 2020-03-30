@@ -74,7 +74,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "https://sharesecrets.herokuapp.com/auth/google/secrets",
+      callbackURL: "http://sharesecrets.herokuapp.com/auth/google/secrets",
       // callbackURL: "http://localhost:3000/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
     },
@@ -99,8 +99,8 @@ app.get(
   "/auth/google/secrets",
   passport.authenticate("google", { failureRedirect: "/login" }),
   function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/secrets");
+    // Successful authentication, redirect secrets.
+    res.redirect("https://sharesecrets.herokuapp.com/secrets");
   }
 );
 
